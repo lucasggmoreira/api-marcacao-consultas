@@ -1,8 +1,10 @@
 package com.fiap.ecr.api_marcacao_consultas.service;
 
 import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioCadastro;
+import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioModificar;
 import com.fiap.ecr.api_marcacao_consultas.model.Usuario;
 import com.fiap.ecr.api_marcacao_consultas.repository.UsuarioRepository;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,11 @@ import java.util.Optional;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    private final ResourcePatternResolver resourcePatternResolver;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, ResourcePatternResolver resourcePatternResolver) {
         this.usuarioRepository = usuarioRepository;
+        this.resourcePatternResolver = resourcePatternResolver;
     }
     public Usuario salvarUsuario(DadosUsuarioCadastro dados) {
         var usuario = new Usuario(dados);
@@ -36,4 +41,16 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public Optional<Usuario> modificarUsuario(Long id, DadosUsuarioModificar dados) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isPresent()) {
+            if (!(dados.tipo() == null)) usuario.get().setTipo(dados.tipo());
+            if (!(dados.nome() == null)) usuario.get().setNome(dados.nome());
+            if (!(dados.email() == null)) usuario.get().setEmail(dados.email());
+            if (!(dados.senha() == null)) usuario.get().setSenha(passwordEncoder.encode(dados.senha()));
+            return Optional.of(usuarioRepository.save(usuario.get()));
+        } else {
+            return Optional.empty();
+        }
+    }
 }
