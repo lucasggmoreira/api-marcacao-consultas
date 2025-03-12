@@ -2,6 +2,7 @@ package com.fiap.ecr.api_marcacao_consultas.controller;
 
 import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioCadastro;
 import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioDetalhado;
+import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioModificar;
 import com.fiap.ecr.api_marcacao_consultas.model.Usuario;
 import com.fiap.ecr.api_marcacao_consultas.service.UsuarioService;
 import com.fiap.ecr.api_marcacao_consultas.security.JwtTokenProvider;
@@ -46,6 +47,12 @@ public class UsuarioController {
         Optional<Usuario> usuario = usuarioService.procurarPorId(id);
         return usuario.map(d -> ResponseEntity.ok(new DadosUsuarioDetalhado(d)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DadosUsuarioDetalhado> modificarUsuario(@PathVariable Long id, @RequestBody DadosUsuarioModificar usuario) {
+        Optional<Usuario> dadosRetorno = usuarioService.modificarUsuario(id, usuario);
+        return dadosRetorno.map(d -> ResponseEntity.ok(new DadosUsuarioDetalhado(d))).orElse(ResponseEntity.notFound().build());
     }
 
 
