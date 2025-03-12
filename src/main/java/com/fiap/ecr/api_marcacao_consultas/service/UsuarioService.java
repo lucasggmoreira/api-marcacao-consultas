@@ -1,5 +1,6 @@
 package com.fiap.ecr.api_marcacao_consultas.service;
 
+import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioCadastro;
 import com.fiap.ecr.api_marcacao_consultas.model.Usuario;
 import com.fiap.ecr.api_marcacao_consultas.repository.UsuarioRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +15,8 @@ public class UsuarioService {
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
-    public Usuario salvarUsuario(Usuario usuario) {
+    public Usuario salvarUsuario(DadosUsuarioCadastro dados) {
+        var usuario = new Usuario(dados);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }

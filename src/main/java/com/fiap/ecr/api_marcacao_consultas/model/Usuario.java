@@ -1,5 +1,6 @@
 package com.fiap.ecr.api_marcacao_consultas.model;
 
+import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioCadastro;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,12 @@ public class Usuario implements UserDetails {
     private String senha;
     private TipoUsuario tipo; // Paciente, Médico ou Admin
 
-    public Usuario(String nome, String email, String senha, TipoUsuario tipo) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.tipo = tipo;
+    public Usuario(DadosUsuarioCadastro dados) {
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.senha = dados.senha();
+        if (dados.tipo().equals(null)) this.tipo = TipoUsuario.PACIENTE;
+        else this.tipo = dados.tipo();
     }
 
 

@@ -1,5 +1,6 @@
 package com.fiap.ecr.api_marcacao_consultas.controller;
 
+import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioCadastro;
 import com.fiap.ecr.api_marcacao_consultas.dto.DadosUsuarioDetalhado;
 import com.fiap.ecr.api_marcacao_consultas.model.Usuario;
 import com.fiap.ecr.api_marcacao_consultas.service.UsuarioService;
@@ -24,7 +25,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<DadosUsuarioDetalhado> criarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<DadosUsuarioDetalhado> criarUsuario(@RequestBody DadosUsuarioCadastro usuario) {
         return ResponseEntity.ok(new DadosUsuarioDetalhado(usuarioService.salvarUsuario(usuario)));
     }
 
@@ -46,6 +47,7 @@ public class UsuarioController {
         return usuario.map(d -> ResponseEntity.ok(new DadosUsuarioDetalhado(d)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
 
 
