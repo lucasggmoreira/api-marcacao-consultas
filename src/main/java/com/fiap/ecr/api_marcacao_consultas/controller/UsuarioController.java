@@ -55,6 +55,12 @@ public class UsuarioController {
         return dadosRetorno.map(d -> ResponseEntity.ok(new DadosUsuarioDetalhado(d))).orElse(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity removerUsuario(@PathVariable Long id){
+        usuarioService.removerUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 

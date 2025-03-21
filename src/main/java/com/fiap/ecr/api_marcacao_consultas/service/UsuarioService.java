@@ -53,4 +53,8 @@ public class UsuarioService {
             return Optional.empty();
         }
     }
+
+    public void removerUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+    }
 }
