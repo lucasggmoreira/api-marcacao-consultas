@@ -24,4 +24,8 @@ public class ConsultaService {
     public void deletarConsulta(Long id) {
         consultaRepository.deleteById(id);
     }
+
+    public List<Consulta> buscarConsultasPorUsuario(Long usuarioId) {
+        return consultaRepository.findByUsuarioId(usuarioId);
+    }
 }

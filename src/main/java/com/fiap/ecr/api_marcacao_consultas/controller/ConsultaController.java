@@ -26,4 +26,16 @@ public class ConsultaController {
         consultaService.deletarConsulta(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Consulta> modificarConsulta(@PathVariable Long id, @RequestBody Consulta consulta) {
+        consulta.setId(id);
+        return ResponseEntity.ok(consultaService.salvarConsulta(consulta));
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Consulta>> buscarConsultasPorUsuario(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(consultaService.buscarConsultasPorUsuario(usuarioId));
+    }
+
 }
