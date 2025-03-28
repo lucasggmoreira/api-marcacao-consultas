@@ -4,6 +4,7 @@ import com.fiap.ecr.api_marcacao_consultas.security.JwtAuthenticationFilter;
 import com.fiap.ecr.api_marcacao_consultas.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,8 +26,9 @@ public class SecurityConfig{
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
+                    req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/usuarios").authenticated();
                     req.requestMatchers(
-                            "/usuarios",
                             "/usuarios/login",
                             "/h2-console/**").permitAll();
                     req.anyRequest().authenticated();

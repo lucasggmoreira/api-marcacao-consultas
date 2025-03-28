@@ -14,9 +14,13 @@ public class ConsultaController {
         this.consultaService = consultaService;
     }
     @PostMapping
-    public ResponseEntity<Consulta> criarConsulta(@RequestBody Consulta consulta) {
-        return ResponseEntity.ok(consultaService.salvarConsulta(consulta));
-    }
+    public ResponseEntity criarConsulta(@RequestBody Consulta consulta) {
+        try{
+            return ResponseEntity.ok(consultaService.salvarConsulta(consulta));
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        }
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Consulta>> buscarConsulta(@PathVariable Long id) {
         return ResponseEntity.ok(consultaService.buscarConsulta(id));

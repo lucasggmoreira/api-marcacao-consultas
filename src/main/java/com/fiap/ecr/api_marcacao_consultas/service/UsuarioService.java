@@ -20,7 +20,10 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
         this.resourcePatternResolver = resourcePatternResolver;
     }
-    public Usuario salvarUsuario(DadosUsuarioCadastro dados) {
+    public Usuario salvarUsuario(DadosUsuarioCadastro dados) throws RuntimeException{
+        if (usuarioRepository.findByEmail(dados.email()).isPresent()){
+            throw new RuntimeException("Email já cadastrado");
+        }
         var usuario = new Usuario(dados);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);

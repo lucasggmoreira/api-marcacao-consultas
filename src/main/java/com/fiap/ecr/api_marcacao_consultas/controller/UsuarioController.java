@@ -26,8 +26,12 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<DadosUsuarioDetalhado> criarUsuario(@RequestBody DadosUsuarioCadastro usuario) {
-        return ResponseEntity.ok(new DadosUsuarioDetalhado(usuarioService.salvarUsuario(usuario)));
+    public ResponseEntity criarUsuario(@RequestBody DadosUsuarioCadastro usuario) {
+        try{
+            return ResponseEntity.ok(new DadosUsuarioDetalhado(usuarioService.salvarUsuario(usuario)));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
