@@ -15,4 +15,14 @@ public class Consulta {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "medico_id")
+    private Usuario medico; // Médico
+
+    private String status; // AGENDADA, REALIZADA, CANCELADA
+
+    private String observacao; // Observações sobre a consulta
+
+
 }
